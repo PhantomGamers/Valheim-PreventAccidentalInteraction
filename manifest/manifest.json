@@ -2,13 +2,20 @@
     "ManifestVersion": 2,
     "AuthorName": "PhantomGamers",
     "Name": "PhantomGamers-PreventAccidentalInteraction",
+    "name": "PreventAccidentalInteraction",
     "DisplayName": "PreventAccidentalInteraction",
     "Version": "1.0.0",
+    "version_number": "1.0.0",
     "Licence": "MIT",
     "WebsiteURL": "https://github.com/PhantomGamers/Valheim-PreventAccidentalInteraction",
+    "website_url": "https://github.com/PhantomGamers/Valheim-PreventAccidentalInteraction",
     "Description": "Prevents accidentally interacting with Signs and Item Stands in Valheim by requiring that the user be crouched before allowing an interaction.",
+    "description": "Prevents accidentally interacting with Signs and Item Stands in Valheim by requiring that the user be crouched before allowing an interaction.",
     "GameVersion": "N/A",
     "Dependencies": [
+        "denikson-BepInExPack_Valheim-5.4.602"
+    ],
+    "dependencies": [
         "denikson-BepInExPack_Valheim-5.4.602"
     ],
     "OptionalDependencies": [],
