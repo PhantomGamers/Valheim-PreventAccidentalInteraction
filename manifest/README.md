@@ -9,3 +9,7 @@
  Install [BepInExPack](https://valheim.thunderstore.io/package/denikson/BepInExPack_Valheim/)
  Download latest release .zip from https://github.com/PhantomGamers/Valheim-PreventAccidentalInteraction/releases/latest
  Extract PreventAccidentalInteraction.dll from downloaded zip to BepInEx/plugins and then you can launch the game.
+ 
+ # Changes
+ 1.0.1 - added portal tag interactions
+ 1.0.0 - initial release
