@@ -11,5 +11,6 @@
  Extract PreventAccidentalInteraction.dll from downloaded zip to BepInEx/plugins and then you can launch the game.
  
  # Changes
+ 1.0.2 - don't block guardian power item stands
  1.0.1 - added portal tag interactions
  1.0.0 - initial release
