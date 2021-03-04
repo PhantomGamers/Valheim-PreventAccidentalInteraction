@@ -1,5 +1,5 @@
 # Valheim-PreventAccidentalInteraction
- Prevents accidentally interacting with Signs and Item Stands in Valheim by requiring that the user be crouched before allowing an interaction.
+ Prevents accidentally interacting with Signs, Item Stands, and Portal tags in Valheim by requiring that the user be crouched before allowing an interaction.
  
  # Installation
  ## Simple
@@ -11,5 +11,7 @@
  Extract PreventAccidentalInteraction.dll from downloaded zip to BepInEx/plugins and then you can launch the game.
  
  # Changes
+ 1.0.3 - made prevented interactions user configurable
+ 1.0.2 - don't block guardian power item stands
  1.0.1 - added portal tag interactions
  1.0.0 - initial release
