@@ -13,6 +13,7 @@
  Extract PreventAccidentalInteraction.dll from downloaded zip to BepInEx/plugins and then you can launch the game.  
  
  # Changes  
+ 1.0.6 - remove reference dll mistakenly included in package
  1.0.5 - added configurable key bindings, option to hide hover text  
  1.0.4 - added Nexus Update Check support, improved compatibility with mod object interactions  
  1.0.3 - made prevented interactions user configurable  
