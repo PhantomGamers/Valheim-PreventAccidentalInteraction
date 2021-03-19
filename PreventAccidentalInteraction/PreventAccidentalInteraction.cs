@@ -12,7 +12,7 @@ using UnityEngine;
 
 namespace PreventAccidentalInteraction
 {
-    [BepInPlugin("com.github.phantomgamers.ValheimPreventAccidentalInteraction", "PreventAccidentalInteraction", "1.0.5")]
+    [BepInPlugin("com.github.phantomgamers.ValheimPreventAccidentalInteraction", "PreventAccidentalInteraction", "1.0.7")]
     public class PreventAccidentalInteraction : BaseUnityPlugin
     {
         static readonly string defaultInteractionBlocklist = "ItemStand,Sign,TeleportWorld";
