@@ -12,7 +12,7 @@ using UnityEngine;
 
 namespace PreventAccidentalInteraction
 {
-    [BepInPlugin("com.github.phantomgamers.ValheimPreventAccidentalInteraction", "PreventAccidentalInteraction", "1.0.7")]
+    [BepInPlugin("com.github.phantomgamers.ValheimPreventAccidentalInteraction", "PreventAccidentalInteraction", "1.0.8")]
     public class PreventAccidentalInteraction : BaseUnityPlugin
     {
         static readonly string defaultInteractionBlocklist = "ItemStand,Sign,TeleportWorld";
@@ -36,7 +36,7 @@ namespace PreventAccidentalInteraction
             ConfigHoverTextAllowlist = Config.Bind("General", "HoverTextAllowlist", defaultHoverTextAllowlist,
                                                      "Classes whose hover text should not be limited");
             HoverTextAllowlist = ConfigHoverTextAllowlist.Value.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries).Select(s => s.Trim()).ToArray();
-            BlockGuardianStoneInteractions = Config.Bind("General", "BlockGuardianStoneInteractions", true, "Should Guardian Stone interactions be blocked?");
+            BlockGuardianStoneInteractions = Config.Bind("General", "BlockGuardianStoneInteractions", false, "Should Guardian Stone interactions be blocked?");
             BlockHoverText = Config.Bind("General", "BlockHoverText", true, "Should hover text be blocked?");
             BlockInteractionMethod = Config.Bind("General", "BlockInteractionMethod", "crouch",
                                                  "Which method should be used to detect whether an interaction should be allowed?\nValid values: crouch, keyheld");
@@ -50,30 +50,31 @@ namespace PreventAccidentalInteraction
         public static bool ShouldBlockInteraction(ItemStand instance = default)
         {
             bool result = false;
-
-         //   UnityEngine.Debug.Log("GuardianStone: " + (BlockGuardianStoneInteractions.Value == false
-         //       && !instance.m_guardianPower.m_name.IsNullOrWhiteSpace()).ToString());
+            //UnityEngine.Debug.Log("Instance: " + (instance == null));
+            //UnityEngine.Debug.Log("GuardianStone: " + BlockGuardianStoneInteractions.Value);
+            //UnityEngine.Debug.Log("GuardianPowerName: " + !instance.m_guardianPower.m_name.IsNullOrWhiteSpace());
             if (BlockGuardianStoneInteractions.Value == false
-                && !instance.m_guardianPower.m_name.IsNullOrWhiteSpace())
+                && instance != null && instance.m_guardianPower != null)
             {
                 return false;
             }
 
-           // UnityEngine.Debug.Log("keymethod: " + BlockInteractionMethod.Value);
-            if(BlockInteractionMethod.Value == "keyheld")
+            // UnityEngine.Debug.Log("keymethod: " + BlockInteractionMethod.Value);
+            if (BlockInteractionMethod.Value == "keyheld")
             {
-                foreach(string s in BlockInteractionKeys)
+                foreach (string s in BlockInteractionKeys)
                 {
-                   // UnityEngine.Debug.Log("keyheld " + s + ": " + Input.GetKey(s).ToString());
+                    // UnityEngine.Debug.Log("keyheld " + s + ": " + Input.GetKey(s).ToString());
                     result = !Input.GetKey(s) || result;
                 }
-            } else if(BlockInteractionMethod.Value == "crouch")
+            }
+            else if (BlockInteractionMethod.Value == "crouch")
             {
-               // UnityEngine.Debug.Log("crouching: " + Player.m_localPlayer.IsCrouching().ToString());
+                // UnityEngine.Debug.Log("crouching: " + Player.m_localPlayer.IsCrouching().ToString());
                 result = !Player.m_localPlayer.IsCrouching();
             }
 
-           // UnityEngine.Debug.Log("result: " + result.ToString());
+            // UnityEngine.Debug.Log("result: " + result.ToString());
             return result;
         }
     }
@@ -86,6 +87,7 @@ namespace PreventAccidentalInteraction
             foreach (string s in PreventAccidentalInteraction.InteractionBlocklist)
             {
                 yield return AccessTools.Method(AccessTools.TypeByName(s), "Interact");
+                yield return AccessTools.Method(AccessTools.TypeByName(s), "UseItem");
             }
         }
 
@@ -109,9 +111,9 @@ namespace PreventAccidentalInteraction
 
             var sList = PreventAccidentalInteraction.InteractionBlocklist.ToList();
 
-            foreach(string s in PreventAccidentalInteraction.HoverTextAllowlist)
+            foreach (string s in PreventAccidentalInteraction.HoverTextAllowlist)
             {
-                    sList.Remove(s);
+                sList.Remove(s);
             }
 
             foreach (string s in sList)
@@ -122,7 +124,7 @@ namespace PreventAccidentalInteraction
 
         static void Prefix(ItemStand __instance, ref string __result, ref bool __runOriginal)
         {
-           // UnityEngine.Debug.Log("ShouldBlock: " + PreventAccidentalInteraction.ShouldBlockInteraction().ToString());
+            // UnityEngine.Debug.Log("ShouldBlock: " + PreventAccidentalInteraction.ShouldBlockInteraction().ToString());
             if (PreventAccidentalInteraction.ShouldBlockInteraction(__instance))
             {
                 __result = String.Empty;
