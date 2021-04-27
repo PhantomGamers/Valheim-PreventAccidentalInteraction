@@ -12,7 +12,7 @@ using UnityEngine;
 
 namespace PreventAccidentalInteraction
 {
-    [BepInPlugin("com.github.phantomgamers.ValheimPreventAccidentalInteraction", "PreventAccidentalInteraction", "1.0.8")]
+    [BepInPlugin("com.github.phantomgamers.ValheimPreventAccidentalInteraction", "PreventAccidentalInteraction", "1.0.9")]
     public class PreventAccidentalInteraction : BaseUnityPlugin
     {
         static readonly string defaultInteractionBlocklist = "ItemStand,Sign,TeleportWorld";
@@ -47,16 +47,22 @@ namespace PreventAccidentalInteraction
             Harmony.CreateAndPatchAll(Assembly.GetExecutingAssembly());
         }
 
-        public static bool ShouldBlockInteraction(ItemStand instance = default)
+        public static bool ShouldBlockInteraction(ItemStand instance = null)
         {
             bool result = false;
             //UnityEngine.Debug.Log("Instance: " + (instance == null));
             //UnityEngine.Debug.Log("GuardianStone: " + BlockGuardianStoneInteractions.Value);
             //UnityEngine.Debug.Log("GuardianPowerName: " + !instance.m_guardianPower.m_name.IsNullOrWhiteSpace());
-            if (BlockGuardianStoneInteractions.Value == false
-                && instance != null && instance.m_guardianPower != null)
+            try
             {
-                return false;
+                if (BlockGuardianStoneInteractions.Value == false && instance.m_guardianPower != null)
+                {
+                    return false;
+                }
+            }
+            catch (NullReferenceException)
+            {
+                // This probably means instance is null and so we don't have to do anything
             }
 
             // UnityEngine.Debug.Log("keymethod: " + BlockInteractionMethod.Value);
